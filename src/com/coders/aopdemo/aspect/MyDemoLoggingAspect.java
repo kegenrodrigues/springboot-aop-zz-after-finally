@@ -3,6 +3,7 @@ package com.coders.aopdemo.aspect;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,6 +19,15 @@ import com.coders.aopdemo.Account;
 @Order(2)
 public class MyDemoLoggingAspect {
 
+	@After("execution(* com.coders.aopdemo.dao.AccountDAO.findAccounts(..))")
+	public void afterFinallyFindAccountsAdvice(JoinPoint theJoinPoint) {
+		
+		String method = theJoinPoint.getSignature().toShortString();
+		System.out.println("afterFinallyFindAccountsAdvice was called after this method : "+method);
+		
+	}
+	
+	
 	@AfterThrowing(pointcut = "execution(* com.coders.aopdemo.dao.AccountDAO.findAccounts(..))",
 			throwing = "theException")
 	public void afterThrowingFindAccountsAdvice(JoinPoint theJoinPoint, Throwable theException) {
